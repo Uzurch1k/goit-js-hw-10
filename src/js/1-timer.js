@@ -50,7 +50,6 @@ function userSelectedDate(selectedDate) {
       position: 'topRight',
       timeout: 3000,
       progressBar: false,
-      id: 'inputs',
     });
 
     btnStart.disabled = true;
