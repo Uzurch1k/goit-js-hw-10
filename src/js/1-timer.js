@@ -86,10 +86,10 @@ function onBtnStartClick() {
     const diffTime = initDate - Date.now();
     const { days, hours, minutes, seconds } = convertMs(diffTime);
 
-    day.textContent = `${days}`.padStart(2, '0');
-    hour.textContent = `${hours}`.padStart(2, '0');
-    min.textContent = `${minutes}`.padStart(2, '0');
-    sec.textContent = `${seconds}`.padStart(2, '0');
+    day.textContent = addLeadingZero(days);
+    hour.textContent = addLeadingZero(hours);
+    min.textContent = addLeadingZero(minutes);
+    sec.textContent = addLeadingZero(seconds);
 
     if (diffTime < 1000) {
       clearInterval(timerInt);
@@ -121,4 +121,7 @@ function convertMs(ms) {
   return { days, hours, minutes, seconds };
 }
 
+function addLeadingZero(value) {
+  return `${value}`.padStart(2, '0');
+}
 // ================================================================
