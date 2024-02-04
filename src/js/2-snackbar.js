@@ -13,12 +13,12 @@ function onFormSubmit(e) {
   e.preventDefault();
 
   const stateInput = document.querySelector('input[name="state"]:checked');
-  const delayInput = document.querySelector('input[type="number"]');
-
-  const stateСhoice = stateInput.value;
+	const delayInput = document.querySelector('input[type="number"]');
+	
+  const stateChoice = stateInput.value;
   const delayMilSecond = Number(delayInput.value);
 
-  createPromise(stateСhoice, delayMilSecond)
+  createPromise(stateChoice, delayMilSecond)
     .then(delay => {
       iziToast.success({
         message: `Fulfilled promise in ${delay}ms`,

@@ -24,22 +24,20 @@ flatpickr(inputClock, {
   defaultDate: new Date(),
   minuteIncrement: 1,
   onClose(selectedDates) {
-    userSelectedDate(selectedDates[0]);
+    validateSelectedDate(selectedDates[0]);
   },
 });
 
 // ================================================================
 
 btnStart.disabled = true;
-btnStart.style.backgroundColor = '#cfcfcf';
-btnStart.style.color = '#989898';
-btnStart.style.cursor = 'auto';
+styleBtnInputOff(btnStart);
 
-function userSelectedDate(selectedDate) {
+function validateSelectedDate(selectedDate) {
   if (selectedDate <= Date.now()) {
     iziToast.error({
       title: 'Error',
-      message: 'Illegal operation',
+      message: 'Please choose a date in the future',
       backgroundColor: '#EF4040',
       titleColor: '#fff',
       titleSize: '16px',
@@ -53,14 +51,10 @@ function userSelectedDate(selectedDate) {
     });
 
     btnStart.disabled = true;
-    btnStart.style.backgroundColor = '#cfcfcf';
-    btnStart.style.color = '#989898';
-    btnStart.style.cursor = 'auto';
+    styleBtnInputOff(btnStart);
   } else {
     btnStart.disabled = false;
-    btnStart.style.backgroundColor = null;
-    btnStart.style.color = null;
-    btnStart.style.cursor = 'pointer';
+    styleBtnInputOn(btnStart);
   }
 }
 
@@ -70,18 +64,15 @@ btnStart.addEventListener('click', onBtnStartClick);
 
 function onBtnStartClick() {
   btnStart.disabled = true;
-  btnStart.style.backgroundColor = '#cfcfcf';
-  btnStart.style.color = '#989898';
-  btnStart.style.cursor = 'auto';
+  styleBtnInputOff(btnStart);
 
   inputClock.disabled = true;
-  inputClock.style.backgroundColor = '#FAFAFA';
-  inputClock.style.color = '#808080';
-  inputClock.style.cursor = 'auto';
-  inputClock.style.borderColor = '#808080';
+  styleBtnInputOff(inputClock);
+
+  const clockValue = inputClock.value;
 
   const timerInt = setInterval(() => {
-    const initDate = new Date(inputClock.value);
+    const initDate = new Date(clockValue);
     const diffTime = initDate - Date.now();
     const { days, hours, minutes, seconds } = convertMs(diffTime);
 
@@ -92,11 +83,9 @@ function onBtnStartClick() {
 
     if (diffTime < 1000) {
       clearInterval(timerInt);
+
       inputClock.disabled = false;
-      inputClock.style.backgroundColor = null;
-      inputClock.style.color = null;
-      inputClock.style.cursor = 'pointer';
-      inputClock.style.borderColor = null;
+      styleBtnInputOn(inputClock);
     }
   }, 1000);
 }
@@ -122,6 +111,42 @@ function convertMs(ms) {
 
 function addLeadingZero(value) {
   return `${value}`.padStart(2, '0');
+}
+
+// ================================================================
+
+function styleBtnInputOff(s) {
+  switch (s) {
+    case btnStart:
+      btnStart.style.backgroundColor = '#cfcfcf';
+      btnStart.style.color = '#989898';
+      btnStart.style.cursor = 'auto';
+      break;
+
+    case inputClock:
+      inputClock.style.backgroundColor = '#FAFAFA';
+      inputClock.style.color = '#808080';
+      inputClock.style.cursor = 'auto';
+      inputClock.style.borderColor = '#808080';
+      break;
+  }
+}
+
+function styleBtnInputOn(s) {
+  switch (s) {
+    case btnStart:
+      btnStart.style.backgroundColor = null;
+      btnStart.style.color = null;
+      btnStart.style.cursor = 'pointer';
+      break;
+
+    case inputClock:
+      inputClock.style.backgroundColor = null;
+      inputClock.style.color = null;
+      inputClock.style.cursor = 'pointer';
+      inputClock.style.borderColor = null;
+      break;
+  }
 }
 
 // ================================================================
