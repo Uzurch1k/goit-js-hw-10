@@ -43,6 +43,8 @@ function onFormSubmit(e) {
   form.reset();
 }
 
+// ================================================================
+
 function createPromise(value, delay) {
   const promise = new Promise((resolve, reject) => {
     setTimeout(() => {
@@ -56,3 +58,5 @@ function createPromise(value, delay) {
 
   return promise;
 }
+
+// ================================================================
